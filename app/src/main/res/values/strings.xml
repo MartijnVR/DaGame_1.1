@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DaGame 1.1</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps2">Map</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="coordinates_text">Coordinates</string>
+    <string name="points_text">Points:</string>
+    <string name="points_score">0</string>
+</resources>
