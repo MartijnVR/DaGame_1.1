@@ -19,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
@@ -27,9 +28,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private Circle circleLoc;
+    private Circle circleTarget;
     private MyLocations locations = new MyLocations();
     private int r = 5;
     private static final String TAG = "Message";
+    private LatLng CURRENT_TARGET;
+    private LatLng TARGET_MAIN = new LatLng(50.877042, 4.699990);
+    private LatLng TARGET_SEC = new LatLng(50.877134, 4.699388);
+    private Marker markerTarget;
+
+
 
 
     @Override
@@ -45,19 +53,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng TARGET = new LatLng(50.817091, 4.002430);
 
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationChangeListener(myLocationChangeListener);
 
-        mMap.addMarker(new MarkerOptions().position(TARGET).title("TARGET"));
-        Circle circleTarget = mMap.addCircle(new CircleOptions()
-                .center(TARGET)
-                .radius(5)
-                .strokeColor(Color.RED));
-
-        locations.addLocation(TARGET);
+        changeTarget(TARGET_MAIN, TARGET_SEC);
 
     }
 
@@ -99,7 +100,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
-    }
+            }
 
     public double CalculationByDistance(LatLng StartP, LatLng EndP) {
         int Radius = 6371000;// radius of earth in Km
@@ -126,6 +127,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             points_int += 10;
             points_str = Integer.toString(points_int);
             points_score.setText(points_str);
+
+            changeTarget(TARGET_MAIN,TARGET_SEC);
         }
+    }
+
+    public void changeTarget(LatLng Target1, LatLng Target2){
+        if (CURRENT_TARGET != Target1){
+            CURRENT_TARGET = Target1;
+        }
+        else{
+            CURRENT_TARGET = Target2;
+        }
+
+        if (markerTarget == null && circleTarget == null){
+            markerTarget = mMap.addMarker(new MarkerOptions().position(CURRENT_TARGET).title("TARGET"));
+            circleTarget = mMap.addCircle(new CircleOptions()
+                    .center(CURRENT_TARGET)
+                    .radius(5)
+                    .strokeColor(Color.RED));
+        }
+        else{
+            assert markerTarget != null;
+            markerTarget.remove();
+            circleTarget.remove();
+
+            markerTarget = mMap.addMarker(new MarkerOptions().position(CURRENT_TARGET).title("TARGET"));
+            circleTarget = mMap.addCircle(new CircleOptions()
+                    .center(CURRENT_TARGET)
+                    .radius(5)
+                    .strokeColor(Color.RED));
+
+        }
+
+
+
+
+        locations.addLocation(CURRENT_TARGET);
     }
 }
