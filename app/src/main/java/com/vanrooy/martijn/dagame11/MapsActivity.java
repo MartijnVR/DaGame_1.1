@@ -33,8 +33,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private int r = 5;
     private static final String TAG = "Message";
     private LatLng CURRENT_TARGET;
-    private LatLng TARGET_MAIN = new LatLng(50.877042, 4.699990);
-    private LatLng TARGET_SEC = new LatLng(50.877134, 4.699388);
+    private LatLng TARGET_MAIN = new LatLng(50.864164, 4.678891);
+    private LatLng TARGET_SEC = new LatLng(50.864021, 4.678460);
     private Marker markerTarget;
 
 
@@ -68,7 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         public void onMyLocationChange(Location location) {
             LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
 
-            locations.addLocation(loc);
+            locations.addMyLocation(loc);
 
             if (circleLoc == null){
                 circleLoc = mMap.addCircle(new CircleOptions()
@@ -87,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
 
-            addPoints(locations.getLocation(locations.getSize()-1),locations.getLocation(0));
+            addPoints(locations.getMyLocation(locations.getMySize()-1),locations.getTargetLocation(locations.getTargetSize()-1));
         }
     };
 
@@ -160,9 +160,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
 
-
-
-
-        locations.addLocation(CURRENT_TARGET);
+        locations.addTargetLocation(CURRENT_TARGET);
     }
 }
