@@ -34,7 +34,7 @@ class MyLocations {
     }
 
     public int getTargetSize(){
-        return mylocations.size();
+        return targetlocations.size();
     }
 
 }
