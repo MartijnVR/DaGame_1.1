@@ -37,4 +37,6 @@ class MyLocations {
         return targetlocations.size();
     }
 
+    public LatLng getLastLocation() {return mylocations.get(mylocations.lastIndexOf(this));};
+
 }
